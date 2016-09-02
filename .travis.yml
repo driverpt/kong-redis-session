@@ -1,0 +1,57 @@
+services:
+  - redis-server
+  - postgresql
+
+sudo: false
+
+notifications:
+  email: false
+  
+env:
+  global:
+    - LUAROCKS=2.3.0
+    - KONG_VERSION=0.9.0
+    - OPENSSL=1.0.2h
+    - OPENRESTY=1.9.15.1
+    - $CACHE_DIR=$HOME/cache
+  matrix:
+    - TEST_SUITE=lint
+    - TEST_SUITE=unit
+    - TEST_SUITE=integration    
+#    - LUA=lua5.1
+#    - LUA=lua5.2
+#    - LUA=lua5.3
+#    - LUA=luajit     # latest stable version (2.0.4)
+#    - LUA=luajit2.0  # current head of 2.0 branch
+#    - LUA=luajit2.1  # current head of 2.1 branch
+
+before_script:
+  - psql -c 'CREATE USER kong; CREATE DATABASE kong OWNER kong;' -U postgres
+
+before_install:
+  - wget https://github.com/Mashape/kong/releases/download/0.9.0/kong-0.9.0.precise_all.deb
+#  - source .ci/lua_setenv.sh
+  - source .ci/lua_setup.sh  
+
+install:
+  - make install
+
+script:
+  - .ci/run_tests.sh
+
+cache:
+  apt: true
+  pip: true
+  directories:
+    - $CACHE_DIR
+    - $HOME/.ccm/repository
+    
+addons:
+  apt:
+    packages:
+      addons:
+        - netcat 
+        - openssl
+        - libpcre3
+        - dnsmasq
+        - procps
