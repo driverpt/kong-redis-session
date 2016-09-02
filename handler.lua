@@ -5,16 +5,16 @@
 local BasePlugin = require "kong.plugins.base_plugin"
 local RedisSession = BasePlugin:extend()
 
-local header_filter = require "kong.plugins.jwt-redis-session.header_filter"
+local header_filter = require "kong.plugins.redis-session.header_filter"
 
 -- Your plugin handler's constructor. If you are extending the
 -- Base Plugin handler, it's only role is to instanciate itself
 -- with a name. The name is your plugin name as it will be printed in the logs.
-function JwtRedisSession:new()
-  RedisSession.super.new(self, "jwt-redis-session")
+function RedisSession:new()
+  RedisSession.super.new(self, "redis-session")
 end
 
-function JwtRedisSession:access(config)
+function RedisSession:access(config)
   -- Eventually, execute the parent implementation
   -- (will log that your plugin is entering this context)
   RedisSession.super.access(self)
