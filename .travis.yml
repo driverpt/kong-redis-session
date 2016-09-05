@@ -18,19 +18,12 @@ env:
     - TEST_SUITE=lint
     - TEST_SUITE=unit
     - TEST_SUITE=integration    
-#    - LUA=lua5.1
-#    - LUA=lua5.2
-#    - LUA=lua5.3
-#    - LUA=luajit     # latest stable version (2.0.4)
-#    - LUA=luajit2.0  # current head of 2.0 branch
-#    - LUA=luajit2.1  # current head of 2.1 branch
 
 before_script:
   - psql -c 'CREATE USER kong; CREATE DATABASE kong OWNER kong;' -U postgres
 
 before_install:
-  - wget https://github.com/Mashape/kong/releases/download/0.9.0/kong-0.9.0.precise_all.deb
-#  - source .ci/lua_setenv.sh
+  - wget https://github.com/Mashape/kong/releases/download/0.9.0/kong-0.9.0.precise_all.deb | dpkg -i
   - source .ci/lua_setup.sh  
 
 install:
@@ -47,6 +40,7 @@ cache:
     - $HOME/.ccm/repository
     
 addons:
+  postgres: "9.4"
   apt:
     packages:
       addons:
