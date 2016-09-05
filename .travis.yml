@@ -7,6 +7,15 @@ sudo: false
 notifications:
   email: false
   
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+      - dnsmasq
+      - net-tools
+      - libpcre3-dev
+      - build-essential
+
 env:
   global:
     - LUAROCKS=2.3.0
@@ -38,14 +47,3 @@ cache:
   directories:
     - $CACHE_DIR
     - $HOME/.ccm/repository
-    
-addons:
-  postgres: "9.4"
-  apt:
-    packages:
-      addons:
-        - netcat 
-        - openssl
-        - libpcre3
-        - dnsmasq
-        - procps
