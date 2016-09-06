@@ -17,4 +17,4 @@ else
   elif [ "$TEST_SUITE" == "plugins" ]; then
     make test-plugins
   fi
-fifi
+fi
