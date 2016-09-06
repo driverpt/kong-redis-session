@@ -1,7 +1,6 @@
 DEV_ROCKS = busted luacheck lua-llthreads2
 BUSTED_ARGS ?= -o gtest -v --exclude-tags=ci
-TEST_CMD ?= bin/busted $(BUSTED_ARGS)
-KONG_PATH ?=/kong
+TEST_CMD ?= busted $(BUSTED_ARGS)
 PLUGIN_NAME := kong-plugin-redis-session
 
 .PHONY: install uninstall dev lint test test-integration test-all clean
@@ -13,8 +12,17 @@ DEV_PACKAGE_PATH := $(current_dir)lua_modules/share/lua/5.1/?
 define set_env
 	@eval $$(luarocks path); \
 	LUA_PATH="$(DEV_PACKAGE_PATH).lua;$$LUA_PATH" LUA_CPATH="$(DEV_PACKAGE_PATH).so;$$LUA_CPATH"; \
-	cd $(KONG_PATH);
 endef
+
+dev:
+	@for rock in $(DEV_ROCKS) ; do \
+		if ! command -v $$rock > /dev/null ; then \
+      echo $$rock not found, installing via luarocks... ; \
+      luarocks install $$rock --local; \
+    else \
+      echo $$rock already installed, skipping ; \
+    fi \
+	done;
 
 lint:
 	@luacheck -q . \
@@ -29,6 +37,9 @@ lint:
 
 install:
 	luarocks make $(PLUGIN_NAME)-*.rockspec
+
+install-dev: dev
+	luarocks make --tree lua_modules $(PLUGIN_NAME)-*.rockspec
 
 uninstall:
 	luarocks remove $(PLUGIN_NAME)-*.rockspec
