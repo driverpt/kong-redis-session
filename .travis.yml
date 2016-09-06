@@ -1,0 +1,54 @@
+language: python
+
+services:
+  - redis-server
+  - postgresql
+
+sudo: false
+
+notifications:
+  email: false
+  
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+      - dnsmasq
+      - net-tools
+      - libpcre3-dev
+      - build-essential
+
+env:
+  global:
+    - LUA_VERSION="lua 5.1"
+    - LUAROCKS=2.3.0
+    - KONG_VERSION=0.9.0
+    - OPENSSL=1.0.2h
+    - OPENRESTY=1.9.15.1
+    - $CACHE_DIR=$HOME/cache
+  matrix:
+    - TEST_SUITE=lint
+    - TEST_SUITE=unit
+    - TEST_SUITE=integration    
+
+before_script:
+  - psql -c 'CREATE USER kong;' -U postgres
+  - psql -c 'CREATE DATABASE kong OWNER kong;' -U postgres
+
+before_install:
+  - pip install hererocks
+  - hererocks env --$LUA_VERSION -rlatest
+  - source env/bin/activate
+
+install:
+  - make install-dev
+
+script:
+  - .ci/run_tests.sh
+
+cache:
+  apt: true
+  pip: true
+  directories:
+    - $CACHE_DIR
+    - $HOME/.ccm/repository
