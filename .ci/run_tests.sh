@@ -1,5 +1,5 @@
 #! /bin/bash
-set -e
+set -ex
 
 export BUSTED_ARGS="-o gtest -v --exclude-tags=ci"
 export TEST_CMD="busted $BUSTED_ARGS"
