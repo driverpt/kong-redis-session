@@ -32,7 +32,8 @@ env:
     - TEST_SUITE=integration    
 
 before_script:
-  - psql -c 'CREATE USER kong; CREATE DATABASE kong OWNER kong;' -U postgres
+  - psql -c 'CREATE USER kong;' -U postgres
+  - psql -c 'CREATE DATABASE kong OWNER kong;' -U postgres
 
 before_install:
   - pip install hererocks
