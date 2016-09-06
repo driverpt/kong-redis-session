@@ -14,7 +14,5 @@ else
 
   if [ "$TEST_SUITE" == "integration" ]; then
     make test-integration
-  elif [ "$TEST_SUITE" == "plugins" ]; then
-    make test-plugins
   fi
 fi
