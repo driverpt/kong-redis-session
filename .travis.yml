@@ -1,3 +1,5 @@
+language: python
+
 services:
   - redis-server
   - postgresql
@@ -18,6 +20,7 @@ addons:
 
 env:
   global:
+    - LUA_VERSION="lua 5.1"
     - LUAROCKS=2.3.0
     - KONG_VERSION=0.9.0
     - OPENSSL=1.0.2h
@@ -32,12 +35,12 @@ before_script:
   - psql -c 'CREATE USER kong; CREATE DATABASE kong OWNER kong;' -U postgres
 
 before_install:
-  - wget -P $CACHE_DIR https://github.com/Mashape/kong/releases/download/0.9.0/kong-0.9.0.precise_all.deb
-  - dpkg -i $CACHE_DIR/kong-0.9.0.precise_all.deb
-  - source .ci/lua_setup.sh  
+  - pip install hererocks
+  - hererocks env --$LUA_VERSION -rlatest
+  - source env/bin/activate
 
 install:
-  - make install
+  - make install-dev
 
 script:
   - .ci/run_tests.sh
