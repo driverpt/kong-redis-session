@@ -14,7 +14,7 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    ["kong.plugins.my-kong-plugin.handler"] = "handler.lua",
-    ["kong.plugins.my-kong-plugin.schema"] = "schema.lua"
+    ["kong.plugins.redis-session.handler"] = "handler.lua",
+    ["kong.plugins.redis-session.schema"] = "schema.lua"
   }
 }
