@@ -13,7 +13,7 @@ function _M.execute(conf, ngx)
     ngx.log(ngx.ERR, err)
     return
   end
-  
+
   local red = redis:new()
   red:set_timeout(conf.redis_timeout)
   local ok, err = red:connect(conf.redis_host, conf.redis_port)
@@ -29,18 +29,18 @@ function _M.execute(conf, ngx)
       return
     end
   end
-  
+
   local cache_key = session
   if string.len(conf.redis_session_prefix) > 0 then
     cache_key = conf.redis_session_prefix .. ":" .. cache_key
   end
-  
-  local jwt, err = red:get(cache_key)
+
+  local jwt, err = red:hget(cache_key, conf.hash_key)
   if err then
     ngx.log(ngx.ERR, "error while fetching redis key: ", err)
     return
   end
-  
+
   local authorization_header = ngx.header["Authorization"]
   print(authorization_header)
   if not authorization_header then
