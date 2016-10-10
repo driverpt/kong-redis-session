@@ -9,6 +9,7 @@ Kong plugin that translates a Session Cookie to Authorization header. e.g.: Sess
  * **redis_port** - Redis Port (defaults to 6379)
  * **redis_password** - Redis Password (not required). **Always set a password for Production Environments**
  * **redis_timeout** - Redis Client Timeout for all connections (defaults to 2 seconds)
+ * **hash_key** - Key inside the Hash containing the Authorization Token value (defaults to JWT)
 
 | Key        | Default Value  | Required  |
 | ------------- |-------------| ----- |
@@ -18,6 +19,7 @@ Kong plugin that translates a Session Cookie to Authorization header. e.g.: Sess
 | redis_port |  6379     | No |
 | redis_password |       | No |
 | redis_timeout | 2000 | No |
+| hahs_key | JWT | No |
 
 
 ### Example
@@ -30,5 +32,6 @@ curl -X POST http://kong:8001/apis/{api}/plugins \
     --data "config.redis_host=<redis_host>" \
     --data "config.redis_port=<redis_port>" \
     --data "config.redis_password=<redis_password>" \
-    --data "config.redis_timeout=123456"
+    --data "config.redis_timeout=123456" \
+    --data "config.hash_key=JWT"
 ```
