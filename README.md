@@ -1,4 +1,6 @@
 # kong-redis-session
+
+[![Join the chat at https://gitter.im/kong-redis-session/Lobby](https://badges.gitter.im/kong-redis-session/Lobby.svg)](https://gitter.im/kong-redis-session/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Kong plugin that translates a Session Cookie to Authorization header. e.g.: Session Cookie -> JWT
 
 ## Configuration
