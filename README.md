@@ -19,7 +19,7 @@ Kong plugin that translates a Session Cookie to Authorization header. e.g.: Sess
 | redis_port |  6379     | No |
 | redis_password |       | No |
 | redis_timeout | 2000 | No |
-| hahs_key | JWT | No |
+| hash_key | JWT | No |
 
 
 ### Example
