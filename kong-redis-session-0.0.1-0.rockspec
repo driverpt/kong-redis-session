@@ -16,6 +16,6 @@ build = {
   modules = {
     ["kong.plugins.redis-session.handler"] = "handler.lua",
     ["kong.plugins.redis-session.schema"] = "schema.lua",
-    ["kong.plugins.redis-session.header_filter"] = "header_filter",
+    ["kong.plugins.redis-session.header_filter"] = "header_filter.lua",
   }
 }
